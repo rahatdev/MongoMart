@@ -51,8 +51,18 @@ function ItemDAO(database) {
         * to the callback.
         *
         */
+        
 
-        let query = db.item.aggregate([
+        var categories = [];
+        var category = {
+            _id: "All",
+            num: 9999
+        };
+        let allNum = 0;
+
+        categories.push(category)
+
+        let query = [
             {
                 $group: {
                     _id: { category: "$category" },
@@ -60,20 +70,29 @@ function ItemDAO(database) {
                 }
             },
             { $sort: { _id: 1 } }
-        ])
+        ];
+        let cursor =  this.db.collection('item').aggregate(query);
+        cursor.forEach((item, i) => {
+            let cat = {
+                _id: item['_id'].category,
+                num: item.count
+            }
+            categories.push(cat);
+
+            allNum += item.count;
+            console.log(cat);
+            console.log(allNum);
+        });
+
+        //categories[0].num = allNum;
+
+        categories.forEach(e => {
+            console.log(e);
+        })
 
         //run query and get results'
         //iterate through results, push to categories and add to sum (for all.num)
         // pass to callback
-
-        var categories = [];
-        var category = {
-            _id: "All",
-            num: 9999
-        };
-
-        categories.push(category)
-
         // TODO-lab1A Replace all code above (in this method).
 
         // TODO Include the following line in the appropriate
