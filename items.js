@@ -64,6 +64,7 @@ function ItemDAO(database) {
 
         //run query and get results'
         //iterate through results, push to categories and add to sum (for all.num)
+        // pass to callback
 
         var categories = [];
         var category = {
