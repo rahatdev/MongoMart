@@ -90,7 +90,7 @@ function ItemDAO(database) {
         // TODO Include the following line in the appropriate
         // place within your code to pass the categories array to the
         // callback.
-        
+
     }
 
 
@@ -139,8 +139,7 @@ function ItemDAO(database) {
             //pageItems.push(result);
             result.forEach(item => {
                 pageItems.push(item);
-            })
-            console.log(pageItems);
+            });
             callback(pageItems);
         });
 
@@ -179,9 +178,21 @@ function ItemDAO(database) {
          *
          */
 
+        let query = [];
+        if (category !== 'All' && category !== null) {
+            query.push({ $match: { category: category } });
+        }
+
+        query.push({ $count: 'count'})
+
+        this.db.collection('item').aggregate(query).toArray((err, result) => {
+            numItems = result[0].count;
+            callback(numItems);
+        })
+
         // TODO Include the following line in the appropriate
         // place within your code to pass the count to the callback.
-        callback(numItems);
+        
     }
 
 
