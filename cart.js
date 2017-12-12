@@ -219,3 +219,55 @@ function CartDAO(database) {
 
 
 module.exports.CartDAO = CartDAO;
+
+
+
+
+/*
+//Solution for lab 6
+this.itemInCart = function(userId, itemId, callback) {
+    "use strict";
+
+    // Rather than using next() this could be implemented with
+    // toArray() and a callback function that expects an array
+    // of items and uses array indexing to access the first item.
+    this.db.collection("cart")
+        .find({userId: userId, "items._id": itemId}, {"items.$": 1})
+        .limit(1)
+        .next(function(err, item) {
+            assert.equal(null, err);
+            console.log(err);
+            if (item != null) {
+                item = item.items[0];
+            }
+            console.log(item);
+            callback(item);
+        });
+}
+
+
+//Solution for lab 7
+this.updateQuantity = function(userId, itemId, quantity, callback) {
+    "use strict";
+
+    var updateDoc = {};
+
+    if (quantity == 0) {
+        updateDoc = { "$pull": { items: { _id: itemId } } };
+    } else {
+        updateDoc = { "$set": { "items.$.quantity": quantity } };
+    }
+
+    this.db.collection("cart").findOneAndUpdate(
+        { userId: userId,
+          "items._id": itemId },
+        updateDoc,
+        { returnOriginal: false },
+        function(err, result) {
+            assert.equal(null, err);
+            console.log(result.value);
+            callback(result.value);
+        });
+
+}
+*/
