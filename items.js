@@ -236,7 +236,7 @@ function ItemDAO(database) {
         query.push({ $sort: { _id: 1 } });
         query.push({ $skip: skips });
         query.push({ $limit: itemsPerPage });
-        
+
         var items = [];
         this.db.collection('item').aggregate(query).toArray((err, result) => {
             if (err) console.log(err);
@@ -261,6 +261,7 @@ function ItemDAO(database) {
 
         var numItems = 0;
 
+
         /*
         * TODO-lab2B
         *
@@ -274,7 +275,11 @@ function ItemDAO(database) {
         * simply do this in the mongo shell.
         */
 
-        callback(numItems);
+        this.searchItems(query, 0, 999, (items, err) => {
+            if(err) console.log(err);
+            numItems = items.length;
+            callback(numItems);
+        })
     }
 
 
