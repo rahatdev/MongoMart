@@ -231,13 +231,12 @@ function ItemDAO(database) {
         // } )
 
         let skips = page * itemsPerPage;
-        console.log(querytext);
         let query = [];
         query.push({ $match: { $text: { $search: querytext } } });
         query.push({ $sort: { _id: 1 } });
         query.push({ $skip: skips });
         query.push({ $limit: itemsPerPage });
-        console.log(query);
+        
         var items = [];
         this.db.collection('item').aggregate(query).toArray((err, result) => {
             if (err) console.log(err);
