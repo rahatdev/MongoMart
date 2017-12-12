@@ -52,7 +52,6 @@ function ItemDAO(database) {
         *
         */
 
-        console.log('creating categries....')
         var categories = [];
         let category = {
             _id: "All",
@@ -70,7 +69,6 @@ function ItemDAO(database) {
             { $sort: { _id: 1 } }
         ];
         this.db.collection('item').aggregate(query).toArray((err, result) => {
-
             let allNum = 0;
             result.forEach((item, i) => {
                 category = {
@@ -81,10 +79,8 @@ function ItemDAO(database) {
                 allNum += item.count;
             });
             categories[0].num = allNum;
-            console.log('categorries...')
-            console.log(categories);
+            callback(categories);
         });
-
 
         //run query and get results'
         //iterate through results, push to categories and add to sum (for all.num)
@@ -94,7 +90,7 @@ function ItemDAO(database) {
         // TODO Include the following line in the appropriate
         // place within your code to pass the categories array to the
         // callback.
-        callback(categories);
+        
     }
 
 
@@ -122,19 +118,44 @@ function ItemDAO(database) {
          * than you do for other categories.
          *
          */
-
-        var pageItem = this.createDummyItem();
-        var pageItems = [];
-        for (var i = 0; i < 5; i++) {
-            pageItems.push(pageItem);
+        let skips = itemsPerPage * (page);
+        let query = [];
+        if (category !== 'All' && category !== null) {
+            query.push({ $match: { category: category } })
         }
+
+        query.push({ $sort: { _id: 1 } });
+        query.push({ $skip: skips });
+        query.push({ $limit: itemsPerPage });
+
+
+        // db.item.aggregate([
+        //     { $match: { category: 'Books' } },
+        //     { $sort: { _id: 1 } },
+        //     { $count: 'items' }
+        // // ]).pretty()
+        let pageItems = [];
+        this.db.collection('item').aggregate(query).toArray((err, result) => {
+            //pageItems.push(result);
+            result.forEach(item => {
+                pageItems.push(item);
+            })
+            console.log(pageItems);
+            callback(pageItems);
+        });
+
+        // var pageItem = this.createDummyItem();
+        // var pageItems = [];
+        // for (var i = 0; i < 5; i++) {
+        //     pageItems.push(pageItem);
+        // }
+        // console.log(pageItems)
 
         // TODO-lab1B Replace all code above (in this method).
 
         // TODO Include the following line in the appropriate
         // place within your code to pass the items for the selected page
         // to the callback.
-        callback(pageItems);
     }
 
 
