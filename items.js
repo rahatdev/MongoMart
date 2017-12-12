@@ -183,7 +183,7 @@ function ItemDAO(database) {
             query.push({ $match: { category: category } });
         }
 
-        query.push({ $count: 'count'})
+        query.push({ $count: 'count' })
 
         this.db.collection('item').aggregate(query).toArray((err, result) => {
             numItems = result[0].count;
@@ -192,11 +192,11 @@ function ItemDAO(database) {
 
         // TODO Include the following line in the appropriate
         // place within your code to pass the count to the callback.
-        
+
     }
 
 
-    this.searchItems = function (query, page, itemsPerPage, callback) {
+    this.searchItems = function (querytext, page, itemsPerPage, callback) {
         "use strict";
 
         /*
@@ -223,18 +223,37 @@ function ItemDAO(database) {
          *
          */
 
-        var item = this.createDummyItem();
+        //Text index
+        // db.item.createIndex({
+        //     title: "text",
+        //     slogan: "text",
+        //     description: "text"
+        // } )
+
+        let skips = page * itemsPerPage;
+        console.log(querytext);
+        let query = [];
+        query.push({ $match: { $text: { $search: querytext } } });
+        query.push({ $sort: { _id: 1 } });
+        query.push({ $skip: skips });
+        query.push({ $limit: itemsPerPage });
+        console.log(query);
         var items = [];
-        for (var i = 0; i < 5; i++) {
-            items.push(item);
-        }
+        this.db.collection('item').aggregate(query).toArray((err, result) => {
+            if (err) console.log(err);
+
+            result.forEach(item => {
+                items.push(item);
+            })
+            callback(items);
+        });
 
         // TODO-lab2A Replace all code above (in this method).
 
         // TODO Include the following line in the appropriate
         // place within your code to pass the items for the selected page
         // of search results to the callback.
-        callback(items);
+
     }
 
 
