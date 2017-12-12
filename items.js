@@ -351,7 +351,6 @@ function ItemDAO(database) {
         // update the document with a new review.
         this.db.collection('item').updateOne({ _id: itemId }, { $push: {reviews: reviewDoc}}, (err, doc) => {
             if(err) console.log(err);
-            console.log(doc);
             callback(doc);
         } )
 
