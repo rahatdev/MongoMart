@@ -276,7 +276,7 @@ function ItemDAO(database) {
         */
 
         this.searchItems(query, 0, 999, (items, err) => {
-            if(err) console.log(err);
+            if (err) console.log(err);
             numItems = items.length;
             callback(numItems);
         })
@@ -296,14 +296,23 @@ function ItemDAO(database) {
          *
          */
 
-        var item = this.createDummyItem();
+        console.log('searching for item: ' + itemId);
+
+        this.db.collection('item').find({ _id: itemId })
+            .limit(1)
+            .next((err, result) => {
+                console.log(result);
+                callback(result);
+            })
+
+
 
         // TODO-lab3 Replace all code above (in this method).
 
         // TODO Include the following line in the appropriate
         // place within your code to pass the matching item
         // to the callback.
-        callback(item);
+
     }
 
 
