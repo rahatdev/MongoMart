@@ -51,17 +51,15 @@ function ItemDAO(database) {
         * to the callback.
         *
         */
-        
 
+        console.log('creating categries....')
         var categories = [];
-        var category = {
+        let category = {
             _id: "All",
             num: 9999
         };
-        let allNum = 0;
 
         categories.push(category)
-
         let query = [
             {
                 $group: {
@@ -71,24 +69,22 @@ function ItemDAO(database) {
             },
             { $sort: { _id: 1 } }
         ];
-        let cursor =  this.db.collection('item').aggregate(query);
-        cursor.forEach((item, i) => {
-            let cat = {
-                _id: item['_id'].category,
-                num: item.count
-            }
-            categories.push(cat);
+        this.db.collection('item').aggregate(query).toArray((err, result) => {
 
-            allNum += item.count;
-            console.log(cat);
-            console.log(allNum);
+            let allNum = 0;
+            result.forEach((item, i) => {
+                category = {
+                    _id: item['_id'].category,
+                    num: item.count
+                }
+                categories.push(category);
+                allNum += item.count;
+            });
+            categories[0].num = allNum;
+            console.log('categorries...')
+            console.log(categories);
         });
 
-        //categories[0].num = allNum;
-
-        categories.forEach(e => {
-            console.log(e);
-        })
 
         //run query and get results'
         //iterate through results, push to categories and add to sum (for all.num)
