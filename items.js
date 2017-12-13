@@ -28,7 +28,7 @@ function ItemDAO(database) {
         "use strict";
 
         /*
-        * TODO-lab1A
+        * DONE-lab1A
         *
         * LAB #1A: Implement the getCategories() method.
         *
@@ -85,9 +85,9 @@ function ItemDAO(database) {
         //run query and get results'
         //iterate through results, push to categories and add to sum (for all.num)
         // pass to callback
-        // TODO-lab1A Replace all code above (in this method).
+        // DONE-lab1A Replace all code above (in this method).
 
-        // TODO Include the following line in the appropriate
+        // DONE Include the following line in the appropriate
         // place within your code to pass the categories array to the
         // callback.
 
@@ -98,7 +98,7 @@ function ItemDAO(database) {
         "use strict";
 
         /*
-         * TODO-lab1B
+         * DONE-lab1B
          *
          * LAB #1B: Implement the getItems() method.
          *
@@ -150,9 +150,9 @@ function ItemDAO(database) {
         // }
         // console.log(pageItems)
 
-        // TODO-lab1B Replace all code above (in this method).
+        // DONE-lab1B Replace all code above (in this method).
 
-        // TODO Include the following line in the appropriate
+        // DONE Include the following line in the appropriate
         // place within your code to pass the items for the selected page
         // to the callback.
     }
@@ -164,7 +164,7 @@ function ItemDAO(database) {
         var numItems = 0;
 
         /*
-         * TODO-lab1C:
+         * DONE-lab1C:
          *
          * LAB #1C: Implement the getNumItems method()
          *
@@ -190,7 +190,7 @@ function ItemDAO(database) {
             callback(numItems);
         })
 
-        // TODO Include the following line in the appropriate
+        // DONE Include the following line in the appropriate
         // place within your code to pass the count to the callback.
 
     }
@@ -200,7 +200,7 @@ function ItemDAO(database) {
         "use strict";
 
         /*
-         * TODO-lab2A
+         * DONE-lab2A
          *
          * LAB #2A: Implement searchItems()
          *
@@ -247,9 +247,9 @@ function ItemDAO(database) {
             callback(items);
         });
 
-        // TODO-lab2A Replace all code above (in this method).
+        // DONE-lab2A Replace all code above (in this method).
 
-        // TODO Include the following line in the appropriate
+        // DONE Include the following line in the appropriate
         // place within your code to pass the items for the selected page
         // of search results to the callback.
 
@@ -263,7 +263,7 @@ function ItemDAO(database) {
 
 
         /*
-        * TODO-lab2B
+        * DONE-lab2B
         *
         * LAB #2B: Using the value of the query parameter passed to this
         * method, count the number of items in the "item" collection matching
@@ -287,7 +287,7 @@ function ItemDAO(database) {
         "use strict";
 
         /*
-         * TODO-lab3
+         * DONE-lab3
          *
          * LAB #3: Implement the getItem() method.
          *
@@ -304,9 +304,9 @@ function ItemDAO(database) {
 
 
 
-        // TODO-lab3 Replace all code above (in this method).
+        // DONE-lab3 Replace all code above (in this method).
 
-        // TODO Include the following line in the appropriate
+        // DONE Include the following line in the appropriate
         // place within your code to pass the matching item
         // to the callback.
 
@@ -329,7 +329,7 @@ function ItemDAO(database) {
         "use strict";
 
         /*
-         * TODO-lab4
+         * DONE-lab4
          *
          * LAB #4: Implement addReview().
          *
@@ -347,17 +347,17 @@ function ItemDAO(database) {
             date: Date.now()
         }
 
-        // TODO replace the following two lines with your code that will
+        // DONE replace the following two lines with your code that will
         // update the document with a new review.
-        this.db.collection('item').updateOne({ _id: itemId }, { $push: {reviews: reviewDoc}}, (err, doc) => {
-            if(err) console.log(err);
+        this.db.collection('item').updateOne({ _id: itemId }, { $push: { reviews: reviewDoc } }, (err, doc) => {
+            if (err) console.log(err);
             callback(doc);
-        } )
+        })
 
-        // TODO Include the following line in the appropriate
+        // DONE Include the following line in the appropriate
         // place within your code to pass the updated doc to the
         // callback.
-        
+
     }
 
 
